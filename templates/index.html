@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Detection</title>
+</head>
+<body>
+    <h1>Face Detection</h1>
+    <div id="faces"></div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $.getJSON("/", function(faces) {
+            for (var i = 0; i < faces.length; i++) {
+                var face = faces[i];
+                var div = $("<div />");
+                div.css("width", face.width);
+                div.css("height", face.height);
+                div.css("border", "1px solid red");
+                div.css("position", "absolute");
+                div.css("top", face.y);
+                div.css("left", face.x);
+                $("#faces").append(div);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
