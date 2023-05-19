@@ -1,29 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Face Detection</title>
+    <title>Attendance System</title>
 </head>
 <body>
-    <h1>Face Detection</h1>
-    <div id="faces"></div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <h1>Attendance System</h1>
+
+    <h2>Current Attendance</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index in range(l) %}
+                <tr>
+                    <td>{{ names[index] }}</td>
+                    <td>{{ rolls[index] }}</td>
+                    <td>{{ times[index] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Add New User</h2>
+    <form action="/add" method="post">
+        <label for="newusername">Username:</label>
+        <input type="text" name="newusername" id="newusername" required><br>
+
+        <label for="newuserid">User ID:</label>
+        <input type="text" name="newuserid" id="newuserid" required><br>
+
+        <input type="submit" value="Add User">
+    </form>
+
+    {% if mess %}
+        <p>{{ mess }}</p>
+    {% endif %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $.getJSON("/", function(faces) {
-            for (var i = 0; i < faces.length; i++) {
-                var face = faces[i];
-                var div = $("<div />");
-                div.css("width", face.width);
-                div.css("height", face.height);
-                div.css("border", "1px solid red");
-                div.css("position", "absolute");
-                div.css("top", face.y);
-                div.css("left", face.x);
-                $("#faces").append(div);
-            }
+        $(document).ready(function() {
+            // Your JavaScript code here
         });
-    });
     </script>
 </body>
 </html>
