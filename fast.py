@@ -102,21 +102,19 @@ def home(request: Request):
 
 @app.get("/start")
 def start():
-    if 'face_recognition_model.pkl' not in os.listdir('static'):
-        return {"message": "There is no trained model in the static folder. Please add a new face to continue."}
-
+    """ Start the camera and upon recognizing a face from the registered users, add attendance of that user """
     cap = cv2.VideoCapture(0)
-    i, j = 0, 0
     while True:
         _, frame = cap.read()
-        if extract_faces(frame) != ():
-            (x, y, w, h) = extract_faces(frame)[0]
+        faces = extract_faces(frame)
+        for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 20), 2)
-            face = cv2.resize(frame[y:y + h, x:x + w], (50, 50))
-            identified_person = identify_face(face.reshape(1, -1))[0]
-            add_attendance(identified_person)
-            cv2.putText(frame, f'{identified_person}', (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 20), 2, cv2.LINE_AA)
-        cv2.imshow('Attendance', frame)
+            face = frame[y:y + h, x:x + w]
+            resized_face = cv2.resize(face, (50, 50))
+            prediction = identify_face([resized_face.ravel()])
+            if prediction != []:
+                add_attendance(prediction[0])
+        cv2.imshow("Attendance", frame)
         if cv2.waitKey(1) == 27:
             break
     cap.release()
