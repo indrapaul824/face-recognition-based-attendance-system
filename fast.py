@@ -93,6 +93,42 @@ def add_attendance(name):
         with open(f'Attendance/Attendance-{datetoday}.csv','a') as f:
             f.write(f'\n{username},{userid},{current_time}')
 
+def get_attendance(camera, registered_users):
+    """
+    Starts the camera and upon recognizing a face from the registered user, instantly adds the attendance of that user and stops the webcam.
+
+    Args:
+    camera: A camera object.
+    registered_users: A list of registered users.
+
+    Returns:
+    A list of users who have attended.
+    """
+
+    # Start the camera.
+    camera.start()
+
+    # Capture a frame.
+    frame = camera.read()
+
+    # Detect faces in the frame.
+    faces = cv2.face.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+    # For each face that is detected, compare it to the faces of the registered users.
+    for face in faces:
+        (x, y, w, h) = face
+        face_image = frame[y:y + h, x:x + w]
+        face_encoding = cv2.face.faceHaarcascade.detectMultiScale(face_image)
+
+        # If the face matches a registered user, add the user's attendance and stop the camera.
+        for registered_user in registered_users:
+            if registered_user.face_encoding == face_encoding:
+                registered_user.attendance = True
+                camera.stop()
+                break
+
+    return registered_users
+
 #############################################
 
 @app.get("/", response_class=HTMLResponse)
@@ -100,8 +136,8 @@ def home(request: Request):
     names, rolls, times, l = extract_attendance()
     return templates.TemplateResponse("home.html", context={"request": request,"names": names, "rolls": rolls, "times": times, "l": l})
 
-@app.get("/start")
-def start():
+@app.get("/start", response_class=HTMLResponse)
+def start(request: Request):
     """ Start the camera and upon recognizing a face from the registered users, add attendance of that user """
     cap = cv2.VideoCapture(0)
     while True:
@@ -114,16 +150,16 @@ def start():
             prediction = identify_face([resized_face.ravel()])
             if prediction != []:
                 add_attendance(prediction[0])
-        cv2.imshow("Attendance", frame)
-        if cv2.waitKey(1) == 27:
+        # if attendance is taken, stop the webcam
+        if f'Attendance-{datetoday}.csv' in os.listdir('Attendance'):
             break
     cap.release()
     cv2.destroyAllWindows()
     names, rolls, times, l = extract_attendance()
-    return {"names": names, "rolls": rolls, "times": times, "l": l}
+    return templates.TemplateResponse("home.html", context={"request": request,"names": names, "rolls": rolls, "times": times, "l": l})
 
-@app.post("/add")
-def add(newusername: str, newuserid: int):
+@app.post("/add", response_class=HTMLResponse)
+def add(request: Request, newusername: str, newuserid: int):
     userimagefolder = "static/faces/" + newusername + "_" + str(newuserid)
     if not os.path.isdir(userimagefolder):
         os.makedirs(userimagefolder)
@@ -152,7 +188,7 @@ def add(newusername: str, newuserid: int):
     print('Training Model')
     train_model()
     names, rolls, times, l = extract_attendance()
-    return {"names": names, "rolls": rolls, "times": times, "l": l}
+    return templates.TemplateResponse("home.html", context={"request": request,"names": names, "rolls": rolls, "times": times, "l": l})
 
 if __name__ == "__main__":
     import uvicorn
