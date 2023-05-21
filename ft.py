@@ -221,3 +221,7 @@ async def add(request: Request, newusername: str = Form(...), newuserid: str = F
         'totalreg': totalreg(),
         'datetoday2': datetoday2
     })
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app, host='127.0.0.1", port=5000')
