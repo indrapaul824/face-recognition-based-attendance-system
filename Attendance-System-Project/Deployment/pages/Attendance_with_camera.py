@@ -44,8 +44,8 @@ def detect_known_faces(img, image_encodings=e, persons=n):
         if True in matches:
             first_match_index = matches.index(True)
             name = persons[first_match_index]
-        fc.append(face_location)
-        fn.append(name)
+            fc.append(face_location)
+            fn.append(name)
     return fc, fn
 
 
