@@ -20,20 +20,22 @@
     Overall, the face recognition app is a game-changing technology that can streamline attendance taking and improve the overall efficiency and effectiveness of educational institutions. 
 
 ```mermaid
-graph LR;
+graph TD
 
-A(Web Interface) --> B(Camera Stream)
-B --> C(Display)
-B --> D(Face Detection Module)
-D --> E(Preprocessing)
-E --> F(Face Detection)
-F --> G(Face Recognition)
-D --> H(Data Analytics Module)
-H --> I(Attendance Tracking)
-I --> J(Attendance Recording)
-H --> K(Backend and Database)
-K --> L(Data Storage)
-K --> A
+A(Web Interface) --> B(Home Page)
+A --> C(Add_new_student)
+A --> D(Attendance_with_camera)
+A --> E(Manual_Attendance)
+
+B --> F(Basic Details)
+C --> G(Take Photo)
+C --> H(Save Student)
+D --> J(Recognize Faces)
+D --> K(Mark Attendance)
+E --> L(Enter Student Details)
+E --> M(Save Attendance)
+
+
 ```
 
     
