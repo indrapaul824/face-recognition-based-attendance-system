@@ -6,10 +6,10 @@ import glob
 st.set_page_config(
     page_title="Attendance System", page_icon="📊", layout="wide"
 )
-st.image("logo.png")
+# st.image("logo.png")
 
 # functionalities for selecting the available sheets and viewing the attendance data as well as providing visualizations
-st.title(":viewing: View Attendance")
+st.title("🔎 View Attendance")
 st.write("---")
 path = r"./Attendence/"
 # Select options for manual and camera attendance
