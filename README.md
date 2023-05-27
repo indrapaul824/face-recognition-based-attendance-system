@@ -2,7 +2,7 @@
 
 ## How to run the project
 
-1. Run the requirements.txt file
+1. Run the requirements.txt file (`Python: 3.8`)
     ```bash
     pip install -r requirements.txt    
     ```
