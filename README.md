@@ -2,11 +2,15 @@
 
 ## How to run the project
 
-1. run the requirements.txt file 
+1. Run the requirements.txt file (`Python: 3.8`)
+    ```bash
+    pip install -r requirements.txt    
+    ```
 
-2. cd Attendance-System-Project\Deployment 
-
-3. streamlit run Home_Page.py [ARGUMENTS]
+2. Start the webpage
+    ```bash
+    streamlit run Deployment/Home_Page.py
+    ```
 
 
 ## Overview of the Application
