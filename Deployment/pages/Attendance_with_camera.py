@@ -41,7 +41,7 @@ def detect_known_faces(img, image_encodings=e, persons=n):
     return fc, fn
 
 
-path = "./Attendance/With_Camera/Camera "
+path = "./Attendance/With_Camera/"
 d_l = glob.glob(path+"*.csv")
 for i in range(len(d_l)):
     d_l[i] = d_l[i].split("/")[-1].split(".")[0]
@@ -78,7 +78,7 @@ now = datetime.now()
 date = now.strftime("%d-%m-%Y")
 time = now.strftime("%H:%M:%S")
 
-df = pd.read_csv("./Attendance/With_Camera/Camera " +
+df = pd.read_csv("./Attendance/With_Camera/" +
                  name_of_attendance_sheet+".csv")
 
 if start:
@@ -104,4 +104,4 @@ if start:
 camera.release()
 cv2.destroyAllWindows()
 
-df.to_csv("./Attendance/With_Camera/Camera " + name_of_attendance_sheet+".csv", index=False)
+df.to_csv("./Attendance/With_Camera/" + name_of_attendance_sheet+".csv", index=False)
