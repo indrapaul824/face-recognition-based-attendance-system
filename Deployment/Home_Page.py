@@ -11,7 +11,7 @@ st.set_page_config(
 # functionalities for selecting the available sheets and viewing the attendance data as well as providing visualizations
 st.title("🔎 View Attendance")
 st.write("---")
-path = r"./Attendence/"
+path = r"./Attendance/"
 # Select options for manual and camera attendance
 tab1, tab2 = st.tabs(["Manual Attendance", "Camera Attendance"])
 with tab1:
